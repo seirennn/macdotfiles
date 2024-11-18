@@ -1,10 +1,10 @@
 -- lua/plugins/vimtex.lua
 
 -- Set the PDF viewer (change 'mupdf' to your preferred viewer)
-vim.g.vimtex_view_method = "mupdf"
+vim.g.vimtex_view_method = "zathura"
 
 -- Define a custom viewer command with a refresh option
-vim.g.vimtex_view_general_viewer = "mupdf"
+vim.g.vimtex_view_general_viewer = "zathura"
 vim.g.vimtex_view_general_options = "--reload"
 
 -- Enable quickfix mode (1 for enabled, 0 for disabled)
@@ -27,15 +27,13 @@ vim.g.vimtex_log_ignore = {
   "Token not allowed in a PDF string",
 }
 
-vim.g["vimtex_context_pdf_viewer"] = "mupdf"
+vim.g["vimtex_context_pdf_viewer"] = "zathura"
 
 -- Additional compiler options (customize as needed)
 vim.g.vimtex_compiler_pdflatex = {
   options = {
-    "--shell-escape",
     "--interaction=nonstopmode",
     "--synctex=1",
-    "-file-line-error",
   },
   callback = function()
     vim.fn["vimtex#compiler#pdflatex"]({ "-file-line-error", "-interaction=nonstopmode", "-synctex=1", "-quiet" })

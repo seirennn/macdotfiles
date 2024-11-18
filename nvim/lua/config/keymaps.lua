@@ -27,19 +27,19 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
   "n",
   "<C-x>",
-  [[:!kitty -e sh -c "./a.out; read -n 1 -s"<CR>]],
+  [[:!Alacritty -e sh -c "./a.out; read -n 1 -s"<CR>]],
   { noremap = true, silent = true }
 )
 -- open different terminal and run C++
 vim.api.nvim_set_keymap(
   "n",
   "<S-x>",
-  [[:!kitty -e sh -c "./a.out; read -n 1 -s"<CR>]],
+  [[:!Alacritty -e sh -c "./a.out; read -n 1 -s"<CR>]],
   { noremap = true, silent = true }
 )
 
 -- Compile LaTeX to PDF
-vim.api.nvim_set_keymap("n", "<S-I>", [[:!pdflatex %<CR><CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<S-I>", ":VimtexCompile<CR>", { noremap = true, silent = true })
 
--- Open PDF using zathura
-vim.api.nvim_set_keymap("n", "<S-S>", [[:!zathura %:r.pdf & disown <CR>]], { noremap = true, silent = true })
+-- Open PDF using the default macOS viewer (Preview or another default PDF viewer)
+vim.api.nvim_set_keymap("n", "<S-S>", [[:!open %:r.pdf <CR>]], { noremap = true, silent = true })
