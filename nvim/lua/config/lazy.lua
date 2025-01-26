@@ -1,6 +1,6 @@
 -- lazy.lua
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
   -- stylua: ignore
@@ -8,20 +8,19 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
-require("lazy").setup({
+require('lazy').setup({
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    { 'LazyVim/LazyVim', import = 'lazyvim.plugins' },
     -- import any extras modules here
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    { import = "lazyvim.plugins.extras.ui.mini-animate" },
-    { import = "lazyvim.plugins.extras.ui.alpha" }, -- Add this line for alpha.nvim
-    { import = "lazyvim.plugins.extras.lang.tex" },
-    { import = "lazyvim.plugins.extras.coding.tabnine" },
+    { import = 'lazyvim.plugins.extras.lang.typescript' },
+    { import = 'lazyvim.plugins.extras.lang.json' },
+    { import = 'lazyvim.plugins.extras.ui.mini-animate' },
+    { import = 'lazyvim.plugins.extras.ui.alpha' }, -- Add this line for alpha.nvim
+    { import = 'lazyvim.plugins.extras.lang.tex' },
 
     -- import/override with your plugins
-    { import = "plugins" },
+    { import = 'plugins' },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -32,20 +31,21 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "kanagawa", "habamax" } },
+  install = { colorscheme = { 'kanagawa', 'habamax' } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
-        "gzip",
+        'gzip',
         -- "matchit",
         -- "matchparen",
         -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+        'Fzf-lua',
       },
     },
   },
@@ -66,31 +66,53 @@ vim.api.nvim_exec(
 -- config/lazy.lua
 
 -- Import LazyVim
-local LazyVim = require("lazyvim")
+local LazyVim = require('lazyvim')
 
+-- Import Rust
+
+local nvim_lsp = require('lspconfig')
+local rust_tools = require('rust-tools')
+
+-- Setup Rust tools with LSP
+rust_tools.setup({
+  server = {
+    on_attach = function(client, bufnr)
+      -- Keymaps for Rust LSP
+      local opts = { noremap = true, silent = true }
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    end,
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = { allFeatures = true },
+        checkOnSave = { command = 'clippy' },
+      },
+    },
+  },
+})
 -- LazyVim configuration
 LazyVim.setup({
   plugins = {
-    "lervag/vimtex",
+    'lervag/vimtex',
 
     -- Add other plugins as needed
   },
 })
 
 -- Additional configuration for vimtex (assuming lua/plugins/vimtex.lua)
-require("plugins.vimtex")
+require('plugins.vimtex')
 
 -- lua/plugins/vimtex.lua
 
 vim.g.vimtex_compiler_pdflatex = {
   options = {
-    "--shell-escape",
-    "--interaction=nonstopmode",
-    "--synctex=1",
-    "-file-line-error",
+    '--shell-escape',
+    '--interaction=nonstopmode',
+    '--synctex=1',
+    '-file-line-error',
   },
   callback = function()
-    vim.fn["vimtex#compiler#pdflatex"]({ "-file-line-error", "-interaction=nonstopmode", "-synctex=1", "-quiet" })
+    vim.fn['vimtex#compiler#pdflatex']({ '-file-line-error', '-interaction=nonstopmode', '-synctex=1', '-quiet' })
   end,
 }
 

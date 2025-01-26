@@ -7,6 +7,10 @@
 -- Comile C
 vim.api.nvim_set_keymap("n", "<C-c>", [[:!gcc %<CR><CR>]], { noremap = true, silent = true })
 
+-- Conpile Java
+
+vim.api.nvim_set_keymap("n", "<C-j>", [[:!javac %<CR><CR>]], { noremap = true, silent = true })
+
 -- Comile C++
 vim.api.nvim_set_keymap("n", "<S-c>", [[:!g++ %<CR><CR>]], { noremap = true, silent = true })
 
@@ -34,7 +38,15 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
   "n",
   "<S-x>",
-  [[:!Alacritty -e sh -c "./a.out; read -n 1 -s"<CR>]],
+  [[:!alacritty -e zsh -c "cd $(dirname %) && g++ % && ./a.out || echo 'Press Enter to exit...' && read"<CR>]],
+  { noremap = true, silent = true }
+)
+
+-- Open Terminal with Cargo Compile for rust
+vim.api.nvim_set_keymap(
+  "n",
+  "<S-a>",
+  [[:!alacritty -e zsh -c 'rustc % && ./${$(basename % .rs)} || echo "Press Enter to exit..." && read'<CR>]],
   { noremap = true, silent = true }
 )
 
