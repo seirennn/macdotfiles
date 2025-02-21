@@ -1,7 +1,12 @@
-/StardewValley
-/htop
-/configstore
-/icedtea-web
-/grammarly-languageserver
+/evans
+/flutter
+/code-server
 /yarn
 /simple-update-notifier
+/icedtea-web
+/htop
+/grammarly-languageserver
+configstore
+StardewValley
+evans/
+flutter/
